@@ -2,49 +2,41 @@
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { MapPin, ArrowRight, Tag } from 'lucide-react'
-import { staggerContainer, fadeInUp, scaleIn } from '@/lib/utils'
+import { MapPin } from 'lucide-react'
+import Link from 'next/link'
 
 const projects = [
   {
-    title: 'Belgian Black or Super Black Honed tiles',
-    category: 'Stone Slab Supplier',
-    location: 'Edinburgh, Scotland',
-    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=500&q=80',
-    status: 'Active',
+    category: 'STONE SLAB SUPPLIER',
+    title: 'Belgian Black or Super Black...',
+    location: 'Edinburgh Scotland',
     budget: 'Flexible',
+    image: 'https://images.unsplash.com/photo-1534237710431-e2fc698436d0?w=600&q=80',
+    status: 'Active',
   },
   {
-    title: 'Kitchen Quartz Worktop Installation',
-    category: 'Natural Stone Installation',
-    location: 'Manchester, England',
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80',
-    status: 'Active',
-    budget: 'Fixed',
-  },
-  {
-    title: 'Marble Bathroom Wall Cladding',
-    category: 'Tiles Supplier',
-    location: 'London, England',
-    image: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=500&q=80',
-    status: 'Active',
+    category: 'NATURAL STONE INSTALLATION',
+    title: 'Bespoke Flamed Granite...',
+    location: 'Greater London -England',
     budget: 'Flexible',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+    status: 'Active',
   },
   {
-    title: 'Granite Fireplace Surround Project',
-    category: 'Engineered Stone',
-    location: 'Bristol, England',
-    image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=500&q=80',
+    category: 'NATURAL STONE INSTALLATION',
+    title: 'Saint anne marble hearth...',
+    location: 'Leicestershire -England',
+    budget: 'Flexible',
+    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80',
     status: 'Active',
-    budget: 'Negotiable',
   },
   {
-    title: 'Porcelain Floor Tiling 85m²',
-    category: 'Tiling Services',
-    location: 'Leeds, England',
-    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&q=80',
+    category: 'TILES SUPPLIER',
+    title: 'Large format tiles - 110 m2',
+    location: 'Greater London -England',
+    budget: 'Flexible',
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80',
     status: 'Active',
-    budget: 'Fixed',
   },
 ]
 
@@ -53,104 +45,88 @@ export default function ProjectsGrid() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-[#f0f5fa] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-12 gap-4"
-        >
-          <div>
-            <motion.span variants={fadeInUp} className="section-badge">
-              Real Work, Real Results
-            </motion.span>
-            <motion.h2
-              variants={fadeInUp}
-              className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-black text-[#0a1628] font-display leading-tight"
-            >
+    <section ref={ref} className="py-14 lg:py-20 bg-[#f0f4f8]">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+
+        {/* Header row */}
+        <div className="flex items-start justify-between mb-10 gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+          >
+            <p className="text-[#1a5fb5] text-[11px] font-bold tracking-[0.25em] uppercase mb-2">
+              REAL WORK, REAL RESULTS
+            </p>
+            <h2 className="text-[#0c1e35] font-black text-3xl sm:text-4xl lg:text-[42px] leading-tight mb-2" style={{ fontFamily: 'Arial Black, sans-serif' }}>
               Explore Real UK Projects
-            </motion.h2>
-            <motion.p variants={fadeInUp} className="mt-3 text-gray-500 max-w-lg">
-              From loft conversions in Leeds to boiler installs in Bristol.
-            </motion.p>
-          </div>
-          <motion.div variants={fadeInUp}>
-            <motion.a
+            </h2>
+            <p className="text-gray-500 text-sm">
+              From loft conversions in Leeds to boiler installs in{' '}
+              <span className="text-[#1a5fb5]">Bristol.</span>
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.3 }}
+            className="flex-shrink-0"
+          >
+            <Link
               href="/projects"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="btn-teal px-6 py-3 text-sm font-bold rounded-xl inline-flex items-center gap-2 whitespace-nowrap"
+              className="inline-block px-6 py-2.5 bg-[#0c1e35] text-white text-sm font-semibold rounded-full hover:bg-[#1a3a6b] transition-colors shadow-md whitespace-nowrap"
             >
               Explore Projects
-              <ArrowRight size={16} />
-            </motion.a>
+            </Link>
           </motion.div>
-        </motion.div>
+        </div>
 
-        {/* Horizontal Scroll Cards */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="flex gap-5 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide"
-          style={{ scrollbarWidth: 'none' }}
-        >
-          {projects.map((project, index) => (
+        {/* 4-column project cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {projects.map((project, i) => (
             <motion.div
               key={project.title}
-              variants={scaleIn}
-              custom={index}
-              whileHover={{ y: -8 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="group cursor-pointer flex-shrink-0 w-[300px] sm:w-[320px]"
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.1 + i * 0.1 }}
+              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer group"
             >
-              <div className="bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 border border-gray-100">
-                {/* Image */}
-                <div className="aspect-[16/10] relative overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-
-                  {/* Status Badge */}
-                  <div className="absolute top-3 left-3">
-                    <span className="px-2.5 py-1 rounded-full bg-emerald-500/90 text-white text-xs font-semibold backdrop-blur-sm">
-                      {project.status}
-                    </span>
-                  </div>
-
-                  {/* Category */}
-                  <div className="absolute bottom-3 left-3">
-                    <span className="px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[#0a1628] text-xs font-medium">
-                      {project.category}
-                    </span>
-                  </div>
+              {/* Project image */}
+              <div className="relative overflow-hidden" style={{ aspectRatio: '4/3' }}>
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Active badge */}
+                <div className="absolute top-3 right-3">
+                  <span className="flex items-center gap-1.5 bg-[#0c4a2a] text-white text-[10px] font-semibold px-2.5 py-1 rounded-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0" />
+                    {project.status}
+                  </span>
                 </div>
+              </div>
 
-                {/* Content */}
-                <div className="p-4">
-                  <h3 className="text-[#0a1628] font-semibold text-sm leading-snug mb-3 group-hover:text-[#00c4b4] transition-colors line-clamp-2">
-                    {project.title}
-                  </h3>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 text-gray-400 text-xs">
-                      <MapPin size={12} />
-                      <span>{project.location}</span>
-                    </div>
-                    <span className="px-2 py-0.5 rounded-full bg-blue-50 text-[#1a3a6b] text-xs font-medium">
-                      {project.budget}
-                    </span>
+              {/* Card info */}
+              <div className="p-4">
+                <p className="text-[#1a5fb5] text-[10px] font-bold tracking-wide uppercase mb-1">
+                  {project.category}
+                </p>
+                <h3 className="text-[#0c1e35] font-bold text-[15px] mb-3 leading-tight">
+                  {project.title}
+                </h3>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <MapPin size={13} className="text-gray-400 flex-shrink-0" />
+                    <span className="text-gray-500 text-[12px]">{project.location}</span>
                   </div>
+                  <span className="text-green-600 font-bold text-[12px]">{project.budget}</span>
                 </div>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

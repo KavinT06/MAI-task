@@ -2,155 +2,145 @@
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { ArrowRight, Sparkles } from 'lucide-react'
 import Link from 'next/link'
-import { staggerContainer, fadeInUp } from '@/lib/utils'
+import { ArrowUpRight } from 'lucide-react'
 
 export default function BottomCTA() {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const inView = useInView(ref, { once: true, margin: '-60px' })
 
   return (
     <section ref={ref} className="overflow-hidden">
-      {/* Ready To Get Started */}
-      <div className="py-20 lg:py-24 bg-gradient-to-b from-white to-[#f0f5fa]">
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
-        >
+
+      {/* ===== READY TO GET STARTED ===== */}
+      {/* Light gray bg wrapping a card with rounded corners */}
+      <div className="bg-[#f0f4f8] px-6 lg:px-12 py-10 lg:py-14">
+        <div className="max-w-[1400px] mx-auto">
           <motion.div
-            variants={fadeInUp}
-            className="inline-flex items-center gap-2 mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="relative rounded-2xl overflow-hidden"
+            style={{ minHeight: '300px' }}
           >
-            <span className="section-badge">
-              <Sparkles size={12} />
-              Start Today — It&apos;s Free
-            </span>
-          </motion.div>
-
-          <motion.h2
-            variants={fadeInUp}
-            className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0a1628] font-display leading-tight mb-4"
-          >
-            Ready To Get Started?
-          </motion.h2>
-
-          <motion.p variants={fadeInUp} className="text-gray-500 max-w-xl mx-auto text-lg mb-10">
-            Have 10 minutes? Check out our case studies. We&apos;ve been in the industry for more
-            than a decade. So there&apos;s lots of exciting stuff in here.
-          </motion.p>
-
-          <motion.div variants={fadeInUp}>
-            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-              <Link
-                href="/signup"
-                className="btn-teal px-10 py-4 text-base font-bold rounded-xl inline-flex items-center gap-2"
-              >
-                Sign Up Now
-                <ArrowRight size={18} />
-              </Link>
-            </motion.div>
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {/* Let's Build Banner */}
-      <div className="relative py-20 lg:py-24 overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0d2847] to-[#1a3a6b]" />
-          {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[#00c4b4]/10 blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-[#1a3a6b]/30 blur-3xl" />
-          <div
-            className="absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            }}
-          />
-        </div>
-
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8"
-        >
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left */}
-            <div>
-              <motion.p
-                variants={fadeInUp}
-                className="text-[#00c4b4] text-sm font-semibold tracking-widest uppercase mb-3"
-              >
-                Join MAI Today
-              </motion.p>
-              <motion.h2
-                variants={fadeInUp}
-                className="text-3xl sm:text-4xl lg:text-5xl font-black text-white font-display leading-tight mb-4"
-              >
-                Let&apos;s Build{' '}
-                <span className="gradient-text-gold">Our Nation Great.</span>
-              </motion.h2>
-              <motion.p
-                variants={fadeInUp}
-                className="text-white/70 text-lg leading-relaxed mb-8"
-              >
-                Connect with verified UK tradespeople or find your next project. MAI brings the
-                right people together.
-              </motion.p>
-
-              <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                  <Link
-                    href="/post-a-project"
-                    className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#1F5CAC] text-white font-semibold text-sm rounded-xl shadow-lg shadow-blue-900/30 hover:shadow-blue-900/50 transition-shadow"
-                  >
-                    Post a Project
-                    <ArrowRight size={16} />
-                  </Link>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                  <Link
-                    href="#"
-                    className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/15 bg-white/5 text-white font-semibold text-sm rounded-xl hover:bg-white/10 transition-colors"
-                  >
-                    Learn More
-                  </Link>
-                </motion.div>
-              </motion.div>
+            {/* Background: sunset/construction site */}
+            <div className="absolute inset-0 z-0">
+              <img
+                src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=85"
+                alt="Construction workers at sunset"
+                className="w-full h-full object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-[#0c1e35]/50" />
             </div>
 
-            {/* Right - Stats preview */}
-            <motion.div variants={fadeInUp} className="hidden lg:block">
-              <div className="glass rounded-2xl p-6 border border-white/10">
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    { value: '200K+', label: 'Trusted Traders', color: '#00c4b4' },
-                    { value: '11K', label: 'Monthly Users', color: '#f5a623' },
-                    { value: '98%', label: 'Satisfaction Rate', color: '#00c4b4' },
-                    { value: '50+', label: 'Trade Categories', color: '#1a3a6b' },
-                  ].map((stat) => (
-                    <div
-                      key={stat.label}
-                      className="bg-white/5 rounded-xl p-4 border border-white/5"
-                    >
-                      <div
-                        className="text-2xl font-black font-display"
-                        style={{ color: stat.color }}
-                      >
-                        {stat.value}
-                      </div>
-                      <div className="text-white/50 text-xs mt-1">{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            {/* Content */}
+            <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 py-16 lg:py-20">
+              <h2 className="text-white font-black text-3xl sm:text-4xl lg:text-[44px] mb-4" style={{ fontFamily: 'Arial Black, sans-serif' }}>
+                Ready To Get Started?
+              </h2>
+              <p className="text-white/80 text-sm sm:text-base max-w-lg mx-auto mb-8 leading-relaxed">
+                Have 10 minutes? Check out our case studies. We've been in the industry for more than a decade. So there's lots of exciting stuff in here.
+              </p>
+              <Link
+                href="/signup"
+                className="inline-block px-8 py-3 bg-white text-[#0c1e35] text-sm font-bold rounded-full hover:bg-gray-100 transition-colors shadow-lg"
+              >
+                Sign Up Now
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* ===== LET'S BUILD OUR NATION GREAT ===== */}
+      {/* Dark navy section with grid/cross-hatch pattern */}
+      <div className="relative bg-[#0c1e35] py-12 lg:py-16 overflow-hidden">
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 z-0 opacity-20"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, rgba(100,150,200,0.15) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(100,150,200,0.15) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px',
+          }}
+        />
+
+        {/* Blueprint/architectural lines visible in background */}
+        <div className="absolute inset-0 z-0">
+          {/* Vertical lines at various positions */}
+          {[0.3, 0.35, 0.4, 0.45, 0.5].map((pos, i) => (
+            <div
+              key={i}
+              className="absolute top-0 bottom-0"
+              style={{
+                left: `${pos * 100}%`,
+                width: '1px',
+                background: 'rgba(100,150,220,0.08)',
+              }}
+            />
+          ))}
+          {/* Horizontal lines */}
+          {[0.3, 0.5, 0.7].map((pos, i) => (
+            <div
+              key={i}
+              className="absolute left-0 right-0"
+              style={{
+                top: `${pos * 100}%`,
+                height: '1px',
+                background: 'rgba(100,150,220,0.08)',
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+
+            {/* Left: Headline */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="max-w-lg"
+            >
+              <p className="text-[#1a7fd4] text-[11px] font-bold tracking-[0.2em] uppercase mb-4">
+                START TODAY — IT'S FREE
+              </p>
+              <h2 className="font-black leading-[1.0]" style={{ fontFamily: 'Arial Black, sans-serif', fontSize: 'clamp(40px, 5vw, 64px)' }}>
+                <span className="text-white">Let's </span>
+                <span className="text-[#1a9ed4]">Build</span>
+                <br />
+                <span className="text-white/50">Our Nation Great.</span>
+              </h2>
+              <p className="text-white/50 text-sm sm:text-base leading-relaxed mt-4 max-w-md">
+                Connect with verified UK tradespeople or find your next project. MAI brings the right people together.
+              </p>
+            </motion.div>
+
+            {/* Right: Buttons */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex items-center gap-3"
+            >
+              <Link
+                href="/post-a-project"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#1a5fb5] text-white font-bold text-sm rounded-lg hover:bg-[#2470c9] transition-colors shadow-lg"
+              >
+                Post a Project
+                <ArrowUpRight size={16} />
+              </Link>
+              <Link
+                href="#"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-white/25 text-white font-semibold text-sm rounded-lg hover:bg-white/5 transition-colors"
+              >
+                Learn More
+              </Link>
             </motion.div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

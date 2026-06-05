@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Shield, Users, TrendingUp } from 'lucide-react'
+import { Search, CheckCircle2 } from 'lucide-react'
 
 const rotatingWords = [
   'Wall Tilers',
@@ -22,149 +22,147 @@ const rotatingWords = [
 ]
 
 const stats = [
-  { icon: Users, value: '200K+', label: 'Trusted Traders' },
-  { icon: TrendingUp, value: 'Transparent', label: 'Bidding System' },
-  { icon: Shield, value: '11K', label: 'Monthly Active Users' },
+  { label: '200K+ Trusted Traders' },
+  { label: 'Transparent Bidding System' },
+  { label: '11K Monthly Active Users' },
 ]
 
 export default function Hero() {
   const [currentWord, setCurrentWord] = useState(0)
-  const [query, setQuery] = useState('')
+  const [searchText, setSearchText] = useState('')
+  const [charIndex, setCharIndex] = useState(0)
 
+  // Rotate word every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentWord((prev) => (prev + 1) % rotatingWords.length)
-    }, 2500)
+      setCharIndex(0)
+      setSearchText('')
+    }, 3000)
     return () => clearInterval(interval)
   }, [])
 
+  // Type the word character by character
+  useEffect(() => {
+    const prefix = 'I Want '
+    const fullText = prefix + rotatingWords[currentWord]
+    if (charIndex < fullText.length) {
+      const timer = setTimeout(() => {
+        setSearchText(fullText.slice(0, charIndex + 1))
+        setCharIndex((prev) => prev + 1)
+      }, 55)
+      return () => clearTimeout(timer)
+    }
+  }, [charIndex, currentWord])
+
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
-      {/* Background Image */}
+    <section className="relative overflow-hidden" style={{ minHeight: 'calc(100vh - 116px)' }}>
+      {/* Background: tiler laying floor tiles */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=85"
-          alt="Tiling background"
+          src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=85"
+          alt="Tiler at work"
           className="w-full h-full object-cover object-center"
         />
-        {/* Multi-layer overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/80 via-[#0a1628]/65 to-[#0a1628]/85" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/40 via-transparent to-[#0a1628]/20" />
+        {/* Dark blue overlay matching original */}
+        <div className="absolute inset-0" style={{ backgroundColor: 'rgba(10, 22, 40, 0.62)' }} />
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute top-1/4 right-10 w-72 h-72 rounded-full bg-[#00c4b4]/10 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 left-10 w-96 h-96 rounded-full bg-[#1a3a6b]/20 blur-3xl pointer-events-none" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Headline with rotating text */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-[1.08] tracking-tight mb-4 font-display"
-          >
-            We Find You The{' '}
-            <br className="hidden sm:block" />
-            Local{' '}
-            <span className="relative inline-block min-w-[200px] sm:min-w-[300px] lg:min-w-[400px] text-left">
-              <AnimatePresence mode="wait">
+      {/* Content - left aligned like original */}
+      <div className="relative z-10 flex items-center" style={{ minHeight: 'calc(100vh - 116px)' }}>
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 w-full py-16">
+          <div className="max-w-3xl">
+            {/* Heading: left-aligned, big bold */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="text-white font-black leading-[1.05] mb-4"
+              style={{
+                fontSize: 'clamp(36px, 5vw, 68px)',
+                fontFamily: 'Arial Black, Impact, sans-serif',
+              }}
+            >
+              We Find You The{' '}
+              <span className="text-[#F0A500]">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={rotatingWords[currentWord]}
+                    initial={{ y: 24, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -24, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="inline-block"
+                  >
+                    {rotatingWords[currentWord]}
+                  </motion.span>
+                </AnimatePresence>
                 <motion.span
-                  key={rotatingWords[currentWord]}
-                  initial={{ y: 40, opacity: 0, rotateX: -30 }}
-                  animate={{ y: 0, opacity: 1, rotateX: 0 }}
-                  exit={{ y: -40, opacity: 0, rotateX: 30 }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className="inline-block gradient-text-gold"
-                >
-                  {rotatingWords[currentWord]}
-                </motion.span>
-              </AnimatePresence>
-              {/* Blinking cursor */}
-              <motion.span
-                animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }}
-                className="inline-block w-[3px] h-[0.8em] bg-[#f5a623] ml-1 align-middle"
-              />
-            </span>
-          </motion.h1>
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.6, repeat: Infinity, repeatType: 'reverse' }}
+                  className="inline-block w-[2px] h-[0.75em] bg-[#F0A500] ml-0.5 align-middle"
+                />
+              </span>
+            </motion.h1>
 
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mx-auto mb-4 section-divider"
-          />
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+              className="text-white/80 text-base sm:text-lg mb-8"
+            >
+              Find Local Trusted Tradespeople in Minutes
+            </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-white/70 text-lg sm:text-xl mb-10 max-w-2xl mx-auto leading-relaxed"
-          >
-            Find Local Trusted Tradespeople in Minutes
-          </motion.p>
-
-          {/* Search Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="glass rounded-2xl p-2 max-w-2xl mx-auto mb-14 shadow-2xl border border-white/10"
-          >
-            <div className="flex gap-2">
-              <div className="flex-1 flex items-center gap-3 bg-white rounded-xl px-4 py-3.5">
-                <Search size={18} className="text-[#00c4b4] flex-shrink-0" />
+            {/* Search pill */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.35 }}
+              className="max-w-[520px] mb-8"
+            >
+              <div className="flex items-center bg-white rounded-full overflow-hidden shadow-xl">
                 <input
                   type="text"
-                  placeholder="I Want Worktop"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="flex-1 text-gray-700 text-sm placeholder:text-gray-400 outline-none bg-transparent font-medium"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  placeholder="I Want Stone Repairs"
+                  className="flex-1 px-6 py-4 text-sm text-gray-700 placeholder:text-gray-400 outline-none bg-transparent"
                 />
+                <button className="flex items-center justify-center w-12 h-12 mr-2 rounded-full hover:bg-gray-100 transition-colors flex-shrink-0">
+                  <Search size={20} className="text-gray-500" />
+                </button>
               </div>
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="btn-teal px-6 py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 whitespace-nowrap"
-              >
-                <Search size={16} />
-                Search
-              </motion.button>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex items-center justify-center flex-wrap gap-8 sm:gap-12"
-          >
-            {stats.map(({ icon: Icon, value, label }, i) => (
-              <motion.div
-                key={label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.85 + i * 0.1 }}
-                className="flex items-center gap-3"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#00c4b4]/15 border border-[#00c4b4]/20 flex items-center justify-center">
-                  <Icon size={18} className="text-[#00c4b4]" />
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="flex items-center flex-wrap gap-6"
+            >
+              {stats.map((stat) => (
+                <div key={stat.label} className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-[#00c4b4] flex-shrink-0" />
+                  <span className="text-white/85 text-sm">{stat.label}</span>
                 </div>
-                <div className="text-left">
-                  <div className="text-white font-bold text-lg leading-none font-display">{value}</div>
-                  <div className="text-white/50 text-xs mt-0.5">{label}</div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </div>
 
-      {/* Bottom wave/gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent z-10" />
+      {/* Floating Talk to MAI button - matching the original green button */}
+      <div className="absolute bottom-6 right-6 z-20">
+        <button className="flex items-center gap-2 bg-[#00c4b4] text-white text-xs font-semibold px-4 py-2.5 rounded-full shadow-lg hover:bg-[#009d8f] transition-colors">
+          <span className="w-4 h-4 rounded-full bg-white/30 flex items-center justify-center">
+            <span className="text-[10px]">💬</span>
+          </span>
+          Talk to MAI ✦
+        </button>
+      </div>
     </section>
   )
 }

@@ -2,233 +2,165 @@
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { BarChart3, Search, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react'
-import { staggerContainer, fadeInUp, scaleIn } from '@/lib/utils'
-
-const features = [
-  {
-    icon: BarChart3,
-    title: 'Dashboard',
-    subtitle: 'Smart Project Management',
-    description:
-      'Keep track of every job in one clean dashboard, from your first quote request to the final sign-off.',
-    points: ['Real-time project tracking', 'Budget management', 'Milestone monitoring'],
-    color: '#1a3a6b',
-    accent: '#00c4b4',
-    preview: (
-      <div className="bg-[#0a1628] rounded-xl p-3 text-xs space-y-2">
-        <div className="flex items-center justify-between text-white/60">
-          <span>Project Overview</span>
-          <span className="text-[#00c4b4] font-bold">Jan - Apr</span>
-        </div>
-        {/* Mini chart bars */}
-        <div className="flex items-end gap-1.5 h-12">
-          {[40, 65, 50, 80, 60, 90, 75, 85].map((h, i) => (
-            <div
-              key={i}
-              className="flex-1 rounded-t-sm transition-all"
-              style={{
-                height: `${h}%`,
-                backgroundColor: i % 2 === 0 ? '#00c4b4' : '#1a3a6b',
-                opacity: 0.8,
-              }}
-            />
-          ))}
-        </div>
-        <div className="grid grid-cols-4 gap-1.5">
-          {[
-            { v: '8', l: 'Posted', c: '#00c4b4' },
-            { v: '5', l: 'Active', c: '#f5a623' },
-            { v: '3', l: 'Pending', c: '#1a3a6b' },
-            { v: '12', l: 'Done', c: '#00c4b4' },
-          ].map((s) => (
-            <div key={s.l} className="bg-white/5 rounded-lg p-1.5 text-center">
-              <div className="font-bold text-sm" style={{ color: s.c }}>
-                {s.v}
-              </div>
-              <div className="text-white/40 text-[10px]">{s.l}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-  {
-    icon: Search,
-    title: 'Search With Postcode',
-    subtitle: 'Find Local Experts',
-    description:
-      'Find tradespeople near you — just enter your county and browse verified, rated tradespeople in your area.',
-    points: ['Location-based matching', 'Verified reviews', 'Instant quotes'],
-    color: '#00c4b4',
-    accent: '#009d8f',
-    preview: (
-      <div className="bg-white rounded-xl p-3 text-xs space-y-2 shadow-sm border border-gray-100">
-        <div className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
-          <Search size={12} className="text-[#00c4b4]" />
-          <span className="text-gray-400">SW1A 2AA</span>
-        </div>
-        <div className="space-y-1.5">
-          {['James Miller', 'Sarah Chen', 'David Park'].map((name, i) => (
-            <div key={name} className="flex items-center gap-2 p-2 rounded-lg bg-gray-50">
-              <div
-                className="w-7 h-7 rounded-full text-white flex items-center justify-center text-xs font-bold"
-                style={{ backgroundColor: ['#00c4b4', '#1a3a6b', '#f5a623'][i] }}
-              >
-                {name[0]}
-              </div>
-              <div className="flex-1">
-                <div className="text-gray-700 font-medium">{name}</div>
-                <div className="text-gray-400 text-xs">{['0.8', '1.2', '2.1'][i]} mi away</div>
-              </div>
-              <div className="text-amber-400 text-xs font-bold">★ {['4.9', '4.8', '4.7'][i]}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-  {
-    icon: Sparkles,
-    title: 'Write With AI',
-    subtitle: 'AI-Powered Project Briefs',
-    description:
-      'Not sure how to describe your project? Our AI helps you write a clear, detailed brief in seconds. Just answer a few questions — we do the rest.',
-    points: ['Smart brief generation', 'Professional proposals', 'Instant descriptions'],
-    color: '#f5a623',
-    accent: '#e8951c',
-    preview: (
-      <div className="bg-[#0a1628] rounded-xl p-3 text-xs space-y-2">
-        <div className="flex items-center gap-2 text-[#f5a623]">
-          <Sparkles size={12} />
-          <span className="font-semibold">AI is writing...</span>
-        </div>
-        <div className="space-y-1.5 text-white/70 leading-relaxed">
-          <div className="animate-pulse space-y-1">
-            <div className="h-1.5 rounded bg-white/10 w-full" />
-            <div className="h-1.5 rounded bg-white/10 w-5/6" />
-            <div className="h-1.5 rounded bg-white/10 w-4/6" />
-          </div>
-          <div className="pt-1 text-white/40 text-xs">
-            &quot;I need professional floor tiling for my 45m² kitchen using...&quot;
-          </div>
-        </div>
-        <div className="flex gap-1">
-          {['Natural', 'Modern', 'Luxury'].map((tag) => (
-            <span key={tag} className="px-2 py-0.5 rounded-full bg-[#f5a623]/20 text-[#f5a623] text-xs">
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-]
 
 export default function Features() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-gradient-to-b from-[#f8fbff] to-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={ref} className="py-14 lg:py-20 bg-white overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+
         {/* Header */}
         <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
         >
-          <motion.span variants={fadeInUp} className="section-badge">
-            Your MAI Toolkit
-          </motion.span>
-          <motion.h2
-            variants={fadeInUp}
-            className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-black text-[#0a1628] font-display leading-tight"
+          <p className="text-[#1a5fb5] text-[11px] font-bold tracking-[0.25em] uppercase mb-3">
+            YOUR MAI TOOLKIT
+          </p>
+          <h2 className="text-[#0c1e35] font-black text-3xl sm:text-4xl lg:text-[42px] leading-tight mb-3" style={{ fontFamily: 'Arial Black, sans-serif' }}>
+            Unlock Powerful Tools After Sign Up
+          </h2>
+          <p className="text-gray-500 text-sm sm:text-base max-w-xl mx-auto">
+            Everything You Need to{' '}
+            <span className="text-[#1a5fb5]">Hire the Right Tradesperson</span>
+          </p>
+        </motion.div>
+
+        {/* 3-column cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+
+          {/* Dashboard Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="bg-[#f7f9fc] rounded-2xl p-6 flex flex-col"
           >
-            Unlock Powerful Tools{' '}
-            <span className="gradient-text">After Sign Up</span>
-          </motion.h2>
-          <motion.p variants={fadeInUp} className="mt-4 text-gray-500 max-w-xl mx-auto text-lg">
-            Everything You Need to Hire the Right Tradesperson.
-          </motion.p>
-        </motion.div>
-
-        {/* Feature Cards */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="grid md:grid-cols-3 gap-6 lg:gap-8"
-        >
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              variants={scaleIn}
-              custom={index}
-              whileHover={{ y: -10 }}
-              transition={{ type: 'spring', stiffness: 250, damping: 20 }}
-              className="group relative rounded-3xl overflow-hidden border border-gray-100 shadow-card hover:shadow-card-hover transition-shadow duration-400 bg-white"
-            >
-              {/* Top Accent */}
-              <div
-                className="h-1.5 w-full"
-                style={{ background: `linear-gradient(90deg, ${feature.color}, ${feature.accent})` }}
-              />
-
-              <div className="p-6 lg:p-8">
-                {/* Icon */}
-                <motion.div
-                  whileHover={{ rotate: 5, scale: 1.1 }}
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 shadow-sm"
-                  style={{
-                    background: `linear-gradient(135deg, ${feature.color}20, ${feature.accent}30)`,
-                  }}
-                >
-                  <feature.icon size={26} style={{ color: feature.color }} />
-                </motion.div>
-
-                {/* Text */}
-                <div className="mb-5">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">
-                    {feature.subtitle}
-                  </p>
-                  <h3 className="text-xl font-bold text-[#0a1628] font-display">{feature.title}</h3>
-                  <p className="mt-2 text-gray-500 text-sm leading-relaxed">{feature.description}</p>
-                </div>
-
-                {/* Preview */}
-                <div className="mb-5">{feature.preview}</div>
-
-                {/* Points */}
-                <ul className="space-y-1.5 mb-6">
-                  {feature.points.map((point) => (
-                    <li key={point} className="flex items-center gap-2 text-sm text-gray-600">
-                      <CheckCircle2 size={14} style={{ color: feature.color }} />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA */}
-                <motion.button
-                  whileHover={{ x: 4 }}
-                  className="flex items-center gap-2 text-sm font-semibold transition-colors"
-                  style={{ color: feature.color }}
-                >
-                  Learn More
-                  <ArrowRight size={15} />
-                </motion.button>
+            <h3 className="text-[#0c1e35] font-bold text-xl text-center mb-2">Dashboard</h3>
+            <p className="text-gray-500 text-sm text-center leading-relaxed mb-6">
+              Keep track of{' '}
+              <span className="text-[#1a5fb5]">every job</span> in one clean dashboard, from your{' '}
+              <span className="text-[#1a5fb5]">first quote request</span> to the{' '}
+              <span className="text-[#1a5fb5]">final sign-off</span>.
+            </p>
+            {/* Dashboard UI mockup */}
+            <div className="flex-1 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+              <div className="p-4 border-b border-gray-100">
+                <p className="text-[11px] font-semibold text-[#0c1e35]">Project Overview</p>
+                <p className="text-[10px] text-gray-400 mt-0.5">This Year - 2026 ▾</p>
               </div>
+              {/* Legend */}
+              <div className="flex flex-wrap gap-2 px-4 py-2 text-[9px] text-gray-400">
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-blue-400 inline-block"/>&bull; Active Project</span>
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-gray-300 inline-block"/>&bull; Pending</span>
+              </div>
+              {/* Bar chart */}
+              <div className="px-4 pb-4">
+                <div className="flex items-end justify-between gap-2 h-20 mt-2">
+                  {[40, 65, 45, 80, 55, 70, 50, 85, 60, 75, 55, 90].map((h, i) => (
+                    <div key={i} className="flex-1 flex flex-col gap-0.5 items-center">
+                      <div style={{ height: `${h}%` }} className="w-full rounded-sm bg-blue-400 opacity-80" />
+                      <div style={{ height: `${100 - h}%` }} className="w-full rounded-sm bg-gray-200" />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-between text-[8px] text-gray-400 mt-1">
+                  {['Jan', 'Feb', 'Mar', 'Apr'].map((m) => <span key={m}>{m}</span>)}
+                </div>
+              </div>
+              {/* Ratings row */}
+              <div className="px-4 py-2 border-t border-gray-100 flex items-center justify-between">
+                <span className="text-[10px] text-gray-600 font-medium">Ratings</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-yellow-400 text-sm">★</span>
+                  <span className="text-[11px] font-bold text-[#0c1e35]">4.9</span>
+                  <span className="text-[9px] text-gray-400">All Time</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
 
-              {/* Hover glow */}
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none rounded-3xl"
-                style={{ background: `radial-gradient(circle at 50% 0%, ${feature.color}, transparent 60%)` }}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+          {/* Search With Postcode Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="bg-[#f7f9fc] rounded-2xl p-6 flex flex-col"
+          >
+            <h3 className="text-[#0c1e35] font-bold text-xl text-center mb-2">Search With Postcode</h3>
+            <p className="text-gray-500 text-sm text-center leading-relaxed mb-6">
+              Find tradespeople near you, just enter your county and browse{' '}
+              <span className="text-[#1a5fb5]">verified, rated tradespeople</span> in your area.
+            </p>
+            {/* Map + list mockup */}
+            <div className="flex-1 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+              {/* Trader list items */}
+              <div className="divide-y divide-gray-100">
+                {[
+                  { init: 'DL', name: 'Devon Lane', loc: 'N14 1TL', stars: 4.4 },
+                  { init: 'EP', name: 'Eleanor Pena', loc: 'AL5 3TB', stars: 4.4 },
+                  { init: 'RF', name: 'Robert Fox', loc: 'E3B 3Q4', stars: 4.4 },
+                  { init: 'WW', name: 'Wade Warren', loc: 'England', stars: 4.4 },
+                ].map((trader) => (
+                  <div key={trader.name} className="flex items-center gap-3 px-3 py-2">
+                    <div className="w-8 h-8 rounded-full bg-[#1a3a6b] flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-[9px] font-bold">{trader.init}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[11px] font-semibold text-[#0c1e35] truncate">{trader.name}</p>
+                      <p className="text-[9px] text-gray-400">{trader.loc}</p>
+                    </div>
+                    <div className="flex items-center gap-0.5">
+                      <span className="text-yellow-400 text-[10px]">★</span>
+                      <span className="text-[9px] text-gray-600">{trader.stars}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* Map placeholder */}
+              <div className="h-28 bg-[#e8f0f8] relative overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&q=60"
+                  alt="Map"
+                  className="w-full h-full object-cover opacity-50"
+                />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-4 h-4 rounded-full bg-[#1a5fb5] ring-4 ring-[#1a5fb5]/30" />
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Write With AI Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="bg-[#f7f9fc] rounded-2xl p-6 flex flex-col"
+          >
+            <h3 className="text-[#0c1e35] font-bold text-xl text-center mb-2">Write With AI</h3>
+            <p className="text-gray-500 text-sm text-center leading-relaxed mb-6">
+              Not sure how to describe your project? Our AI helps you write a clear, detailed brief in seconds. Just answer a few{' '}
+              <span className="text-[#1a5fb5]">questions, we do the rest</span>.
+            </p>
+            {/* AI text editor mockup */}
+            <div className="flex-1 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden p-4">
+              <p className="text-[11px] font-semibold text-[#0c1e35] mb-2">Modern Kitchen Renovation</p>
+              <div className="bg-[#f7f9fc] rounded-lg p-3 text-[11px] text-gray-500 leading-relaxed">
+                This project involves renovating an existing kitchen to enhance functionality, layout efficiency, and overall aesthetics. The space measures roughly 12x15 feet...
+              </div>
+              <div className="mt-4 flex justify-end">
+                <button className="flex items-center gap-1.5 text-[11px] font-semibold text-[#1a5fb5] bg-[#e8f0fb] px-3 py-1.5 rounded-full hover:bg-[#d0e3f7] transition-colors">
+                  <span>✦</span> Write with MAI AI
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   )

@@ -2,196 +2,180 @@
 
 import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { CheckCircle2, ArrowRight, Gem, Search, Shield } from 'lucide-react'
-import { staggerContainer, fadeInUp, slideInLeft, slideInRight } from '@/lib/utils'
 
-const valuePoints = [
+const steps = [
   {
-    icon: Gem,
+    num: 1,
     title: 'Post Your Project',
     description: 'Describe what you need, add dimensions, set your budget.',
-    color: '#00c4b4',
+    color: '#d0d8f0',
+    textColor: '#1a3a6b',
   },
   {
-    icon: Search,
+    num: 2,
     title: 'Get Matched Instantly',
     description: 'MAI finds sellers with matching offcuts in the UK.',
-    color: '#1a3a6b',
+    color: '#f0d0d8',
+    textColor: '#8b1a3a',
   },
   {
-    icon: Shield,
+    num: 3,
     title: 'Buy Safely & Save',
     description: 'Secure payment, verified sellers, up to 70% cheaper.',
-    color: '#f5a623',
+    color: '#f8e8c0',
+    textColor: '#8b5e1a',
   },
 ]
 
 export default function StoneOffcuts() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
-  const [budget, setBudget] = useState(5000)
+  const [budget, setBudget] = useState(300)
+  const [stoneType, setStoneType] = useState('')
+  const [projectTitle, setProjectTitle] = useState('')
+  const [description, setDescription] = useState('')
+
+  const minBudget = 300
+  const maxBudget = 25000
+  const percentage = ((budget - minBudget) / (maxBudget - minBudget)) * 100
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="text-center mb-16"
-        >
-          <motion.h2
-            variants={fadeInUp}
-            className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0a1628] font-display leading-tight"
-          >
-            Submit Your Project. Let MAI{' '}
-            <span className="gradient-text">Find Your Perfect Stone.</span>
-          </motion.h2>
-          <motion.p variants={fadeInUp} className="mt-4 text-gray-500 max-w-2xl mx-auto text-lg">
-            Discover discounted stone offcuts on MAI, connecting you with verified UK sellers for
-            secure, budget-friendly options.
-          </motion.p>
-        </motion.div>
+    <section ref={ref} className="py-0 bg-white overflow-hidden">
+      <div className="max-w-[1400px] mx-auto">
+        <div className="grid lg:grid-cols-2 min-h-[600px]">
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Left - Value Points */}
+          {/* LEFT COLUMN */}
           <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
-            className="space-y-8"
+            initial={{ opacity: 0, x: -30 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="px-8 lg:px-16 py-14 lg:py-20 flex flex-col justify-center border-r border-gray-100"
           >
-            {valuePoints.map((point, index) => (
-              <motion.div
-                key={point.title}
-                variants={slideInLeft}
-                className="flex gap-4 group"
-              >
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm transition-transform group-hover:scale-110"
-                  style={{
-                    background: `linear-gradient(135deg, ${point.color}15, ${point.color}25)`,
-                  }}
-                >
-                  <point.icon size={24} style={{ color: point.color }} />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-[#0a1628] font-display mb-1">
-                    {point.title}
-                  </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{point.description}</p>
-                </div>
-              </motion.div>
-            ))}
+            <p className="text-[#1a5fb5] text-[11px] font-bold tracking-[0.25em] uppercase mb-4">
+              STONE OFFCUTS MARKETPLACE
+            </p>
+            <h2 className="text-[#0c1e35] font-black text-2xl sm:text-3xl lg:text-[34px] leading-tight mb-4" style={{ fontFamily: 'Arial Black, sans-serif' }}>
+              Submit Your Project. Let MAI Find Your Perfect Stone.
+            </h2>
+            <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-md">
+              Discover discounted stone offcuts on MAI, connecting you with verified UK sellers for secure, budget-friendly options.
+            </p>
 
-            {/* Highlight Box */}
-            <motion.div
-              variants={fadeInUp}
-              className="bg-gradient-to-br from-[#00c4b4]/5 to-[#1a3a6b]/5 rounded-2xl p-6 border border-[#00c4b4]/15"
-            >
-              <div className="flex items-start gap-3">
-                <CheckCircle2 size={20} className="text-[#00c4b4] mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-[#0a1628] font-semibold text-sm">Save up to 70%</p>
-                  <p className="text-gray-500 text-sm mt-1">
-                    Stone offcuts offer the same premium quality at a fraction of the cost. Perfect
-                    for worktops, splashbacks, and more.
-                  </p>
+            {/* Steps */}
+            <div className="space-y-5">
+              {steps.map((step) => (
+                <div key={step.num} className="flex items-start gap-4">
+                  <div
+                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-sm"
+                    style={{ backgroundColor: step.color, color: step.textColor }}
+                  >
+                    {step.num}
+                  </div>
+                  <div>
+                    <p className="text-[#0c1e35] font-bold text-[14px]">{step.title}</p>
+                    <p className="text-gray-500 text-[13px] mt-0.5 leading-snug">{step.description}</p>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              ))}
+            </div>
           </motion.div>
 
-          {/* Right - Form */}
+          {/* RIGHT COLUMN: Form */}
           <motion.div
-            variants={slideInRight}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
+            initial={{ opacity: 0, x: 30 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="px-8 lg:px-16 py-14 lg:py-20 flex flex-col justify-center bg-white"
           >
-            <div className="bg-white rounded-3xl border border-gray-200 shadow-card p-6 lg:p-8">
-              <div className="mb-6">
-                <h3 className="text-xl font-bold text-[#0a1628] font-display">
-                  Find Your Perfect Stone Offcut
-                </h3>
-                <p className="text-gray-500 text-sm mt-1">
-                  Set your offcut budget and MAI does the rest
-                </p>
-              </div>
+            <h3 className="text-[#0c1e35] font-black text-2xl sm:text-3xl lg:text-[30px] mb-2" style={{ fontFamily: 'Arial Black, sans-serif' }}>
+              Find Your Perfect Stone Offcut
+            </h3>
+            <p className="text-gray-500 text-sm mb-7">
+              Set your offcut budget and MAI does the rest
+            </p>
 
-              <div className="space-y-4">
+            {/* Form */}
+            <div className="space-y-5">
+              {/* Row 1: Project title + Stone type */}
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Project Title
+                  <label className="block text-[10px] font-bold text-[#0c1e35]/70 tracking-widest uppercase mb-2">
+                    PROJECT TITLE
                   </label>
                   <input
                     type="text"
                     placeholder="Enter project name"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 placeholder:text-gray-400 outline-none focus:border-[#00c4b4] focus:ring-2 focus:ring-[#00c4b4]/20 transition-all"
+                    value={projectTitle}
+                    onChange={(e) => setProjectTitle(e.target.value)}
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-[#1a5fb5]/30 focus:border-[#1a5fb5] transition-all"
                   />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Stone Type
+                  <label className="block text-[10px] font-bold text-[#0c1e35]/70 tracking-widest uppercase mb-2">
+                    STONE TYPE
                   </label>
-                  <select className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-500 outline-none focus:border-[#00c4b4] focus:ring-2 focus:ring-[#00c4b4]/20 transition-all bg-white appearance-none">
-                    <option>Select stone type</option>
+                  <select
+                    value={stoneType}
+                    onChange={(e) => setStoneType(e.target.value)}
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-500 outline-none focus:ring-2 focus:ring-[#1a5fb5]/30 focus:border-[#1a5fb5] transition-all appearance-none bg-white"
+                  >
+                    <option value="">Select stone type</option>
                     <option>Granite</option>
                     <option>Marble</option>
                     <option>Quartz</option>
-                    <option>Slate</option>
                     <option>Limestone</option>
+                    <option>Slate</option>
                   </select>
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Project Description
-                  </label>
-                  <textarea
-                    placeholder="Enter description"
-                    rows={3}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 placeholder:text-gray-400 outline-none focus:border-[#00c4b4] focus:ring-2 focus:ring-[#00c4b4]/20 transition-all resize-none"
-                  />
+              {/* Project description */}
+              <div>
+                <label className="block text-[10px] font-bold text-[#0c1e35]/70 tracking-widest uppercase mb-2">
+                  PROJECT DESCRIPTION
+                </label>
+                <textarea
+                  placeholder="Enter description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows={4}
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-[#1a5fb5]/30 focus:border-[#1a5fb5] transition-all resize-none"
+                />
+              </div>
+
+              {/* Budget range */}
+              <div>
+                <p className="text-[#0c1e35] font-bold text-sm mb-3">Budget Range</p>
+                <div className="flex justify-between text-[12px] text-gray-500 mb-2">
+                  <span>£300 (minimum)</span>
+                  <span>£25,000 (maximum)</span>
                 </div>
-
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="text-sm font-medium text-gray-700">Budget Range</label>
-                    <span className="text-lg font-bold text-[#0a1628] font-display">
-                      £{budget.toLocaleString()}
+                <input
+                  type="range"
+                  min={minBudget}
+                  max={maxBudget}
+                  step={100}
+                  value={budget}
+                  onChange={(e) => setBudget(Number(e.target.value))}
+                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, #0c1e35 ${percentage}%, #e2e8f0 ${percentage}%)`,
+                  }}
+                />
+                <div className="flex justify-center mt-5">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-[#0c1e35] font-black text-3xl">£</span>
+                    <span className="text-[#0c1e35] font-black text-4xl underline decoration-[#0c1e35]">
+                      {budget.toLocaleString()}
                     </span>
                   </div>
-                  <input
-                    type="range"
-                    min={300}
-                    max={25000}
-                    step={100}
-                    value={budget}
-                    onChange={(e) => setBudget(Number(e.target.value))}
-                    className="w-full h-2 rounded-full appearance-none cursor-pointer"
-                    style={{
-                      background: `linear-gradient(to right, #00c4b4 ${
-                        ((budget - 300) / (25000 - 300)) * 100
-                      }%, #e5e7eb ${((budget - 300) / (25000 - 300)) * 100}%)`,
-                    }}
-                  />
-                  <div className="flex justify-between text-xs text-gray-400 mt-1">
-                    <span>£300</span>
-                    <span>£25,000</span>
-                  </div>
                 </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="btn-teal w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 mt-2"
-                >
-                  Post Your Stones Project Now
-                  <ArrowRight size={16} />
-                </motion.button>
               </div>
+
+              {/* Submit button */}
+              <button className="w-full py-4 bg-[#d0d8e8] text-[#0c1e35] text-sm font-bold rounded-xl hover:bg-[#b8c4d8] transition-colors">
+                Post Your Stones Project Now
+              </button>
             </div>
           </motion.div>
         </div>

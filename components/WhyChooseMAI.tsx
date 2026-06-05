@@ -2,139 +2,144 @@
 
 import { useRef, useState } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
-import { staggerContainer, fadeInUp } from '@/lib/utils'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import Link from 'next/link'
 
 const traders = [
-  { name: 'Lloyd Wilkinson', initials: 'LW', color: '#00c4b4' },
-  { name: 'Mohamad Almustafa', initials: 'MA', color: '#1a3a6b' },
-  { name: 'Mahmood Darr', initials: 'MD', color: '#f5a623' },
-  { name: 'Driss El Aissati', initials: 'DE', color: '#00c4b4' },
-  { name: 'Lewis Dawson', initials: 'LD', color: '#1a3a6b' },
-]
-
-const translateClasses = [
-  'md:translate-y-12 xl:translate-y-24',
-  'md:translate-y-0 xl:translate-y-14',
-  'md:translate-y-0 xl:translate-y-0',
-  'md:translate-y-0 xl:translate-y-14',
-  'md:translate-y-12 xl:translate-y-24',
+  {
+    initials: 'LW',
+    name: 'Lloyd Wilkinson',
+    bg: '#c8d4e0',
+  },
+  {
+    initials: 'MA',
+    name: 'Mohamad ALMUSTAFA',
+    bg: '#c8d4e0',
+  },
+  {
+    initials: 'MD',
+    name: 'Mahmood Darr',
+    bg: '#c8d4e0',
+    center: true,
+  },
+  {
+    initials: 'DE',
+    name: 'Driss El Aissati',
+    bg: '#c8d4e0',
+  },
+  {
+    initials: 'LD',
+    name: 'Lewis Dawson',
+    bg: '#c8d4e0',
+  },
 ]
 
 export default function WhyChooseMAI() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
-  const [startIndex, setStartIndex] = useState(0)
-
-  const visibleTraders = traders.slice(startIndex, startIndex + 5)
+  const [centerIndex, setCenterIndex] = useState(2)
 
   const handlePrev = () => {
-    setStartIndex((prev) => Math.max(0, prev - 1))
+    setCenterIndex((prev) => (prev - 1 + traders.length) % traders.length)
   }
-
   const handleNext = () => {
-    setStartIndex((prev) => Math.min(traders.length - 5, prev + 1))
+    setCenterIndex((prev) => (prev + 1) % traders.length)
   }
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-gradient-to-b from-white to-[#f0f5fa] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={ref} className="py-14 lg:py-20 bg-[#f0f4f8]">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+
         {/* Header */}
         <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
         >
-          <motion.span variants={fadeInUp} className="section-badge">
-            Trusted By Homeowners
-          </motion.span>
-          <motion.h2
-            variants={fadeInUp}
-            className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-black text-[#0a1628] font-display leading-tight"
-          >
+          <p className="text-[#1a5fb5] text-[11px] font-bold tracking-[0.25em] uppercase mb-3">
+            TRUSTED BY HOMEOWNERS
+          </p>
+          <h2 className="text-[#0c1e35] font-black text-3xl sm:text-4xl lg:text-[42px] leading-tight mb-3" style={{ fontFamily: 'Arial Black, sans-serif' }}>
             Why Choose MAI
-          </motion.h2>
-          <motion.p variants={fadeInUp} className="mt-4 text-gray-500 max-w-2xl mx-auto text-lg">
-            Every trader on MAI is verified, rated, and ready to work — so you get competitive bids
-            from qualified professionals, not random strangers.
-          </motion.p>
+          </h2>
+          <p className="text-gray-500 text-sm sm:text-base max-w-2xl mx-auto">
+            Every trader on MAI is{' '}
+            <span className="text-[#1a5fb5]">verified</span>, rated, and ready to work, so you get{' '}
+            <span className="text-[#1a5fb5]">competitive bids</span> from{' '}
+            <span className="text-[#1a5fb5]">qualified professionals</span>, not random strangers.
+          </p>
         </motion.div>
 
-        {/* Trader Cards - V-shape layout */}
+        {/* Trader cards: V-shape with center elevated */}
         <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="relative mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex items-end justify-center gap-4 mb-8"
         >
-          <div className="flex items-start justify-center gap-4 md:gap-6 lg:gap-8 pb-16 md:pb-28">
-            {visibleTraders.map((trader, index) => (
+          {traders.map((trader, i) => {
+            const isCenter = i === 2
+            const isNearCenter = i === 1 || i === 3
+            const height = isCenter ? 'h-[340px]' : isNearCenter ? 'h-[280px]' : 'h-[230px]'
+            const width = isCenter ? 'w-[200px]' : isNearCenter ? 'w-[178px]' : 'w-[155px]'
+
+            return (
               <motion.div
-                key={trader.name}
-                variants={fadeInUp}
-                custom={index}
-                whileHover={{ y: -10, scale: 1.05 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className={`flex flex-col items-center cursor-pointer group transition-transform duration-300 ${translateClasses[index] || ''}`}
+                key={trader.initials}
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.15 + i * 0.08 }}
+                className={`${width} ${height} rounded-2xl relative flex flex-col justify-end overflow-hidden cursor-pointer flex-shrink-0`}
+                style={{ backgroundColor: trader.bg }}
               >
-                {/* Avatar */}
-                <div
-                  className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center shadow-lg border-4 border-white group-hover:shadow-xl transition-shadow"
-                  style={{ backgroundColor: trader.color }}
-                >
-                  <span className="text-white font-bold text-lg md:text-xl lg:text-2xl font-display">
+                {/* Initials in center */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-[#0c1e35]/70 font-black text-4xl" style={{ fontFamily: 'Arial Black, sans-serif' }}>
                     {trader.initials}
                   </span>
                 </div>
 
-                {/* Name */}
-                <p className="mt-3 text-[#0a1628] font-semibold text-xs md:text-sm text-center max-w-[100px] leading-tight group-hover:text-[#00c4b4] transition-colors">
-                  {trader.name}
-                </p>
+                {/* Bottom gradient + name */}
+                <div className={`relative z-10 px-4 py-3 ${isCenter ? 'bg-gradient-to-t from-[#0c1e35]/80 via-[#0c1e35]/30 to-transparent' : 'bg-gradient-to-t from-[#0c1e35]/70 via-[#0c1e35]/20 to-transparent'}`}>
+                  <p className={`text-white font-bold leading-tight ${isCenter ? 'text-sm' : 'text-xs'}`}>
+                    {trader.name}
+                  </p>
+                </div>
               </motion.div>
-            ))}
-          </div>
-
-          {/* Navigation Arrows */}
-          <div className="flex items-center justify-center gap-4">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={handlePrev}
-              disabled={startIndex === 0}
-              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#0a1628] hover:border-gray-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed bg-white shadow-sm"
-            >
-              <ChevronLeft size={18} />
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={handleNext}
-              disabled={startIndex >= traders.length - 5}
-              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#0a1628] hover:border-gray-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed bg-white shadow-sm"
-            >
-              <ChevronRight size={18} />
-            </motion.button>
-          </div>
+            )
+          })}
         </motion.div>
 
-        {/* CTA */}
+        {/* Navigation + View All */}
         <motion.div
-          variants={fadeInUp}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="text-center"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.6 }}
+          className="flex flex-col items-center gap-5"
         >
-          <motion.a
-            href="/trader-list"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            className="btn-teal px-8 py-3.5 text-sm font-bold rounded-xl inline-flex items-center gap-2"
+          {/* Prev/Next buttons */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handlePrev}
+              className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+            >
+              <ChevronLeft size={18} className="text-[#0c1e35]" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+            >
+              <ChevronRight size={18} className="text-[#0c1e35]" />
+            </button>
+          </div>
+
+          <Link
+            href="/traders"
+            className="inline-block px-8 py-3 bg-[#0c1e35] text-white text-sm font-bold rounded-full hover:bg-[#1a3a6b] transition-colors shadow-md"
           >
             View All Traders
-            <ArrowRight size={16} />
-          </motion.a>
+          </Link>
         </motion.div>
       </div>
     </section>
